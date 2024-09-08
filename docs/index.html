@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historic POI Map</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            height: 100%;
+            width: 70%;
+            float: left;
+        }
+        #sidebar {
+            height: 100%;
+            width: 30%;
+            float: right;
+            overflow-y: auto;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+        }
+        #search-container {
+            margin-bottom: 10px;
+        }
+        #search-input {
+            width: 70%;
+            padding: 5px;
+        }
+        #search-button {
+            width: 25%;
+            padding: 5px;
+        }
+        #radius-container {
+            margin-bottom: 10px;
+        }
+        #radius-input {
+            width: 100%;
+        }
+        #poi-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .poi-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+            height: 120px; /* Set a fixed height */
+        }
+        .poi-card.flipped {
+            transform: rotateY(180deg);
+        }
+        .poi-brief, .poi-details {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .poi-details {
+            transform: rotateY(180deg);
+            background-color: white;
+        }
+        .poi-details pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 0.8em;
+        }
+        .poi-card h3 {
+            margin-top: 0;
+            font-size: 1em;
+        }
+        .poi-card p {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="sidebar">
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search for a place">
+            <button id="search-button">Search</button>
+        </div>
+        <div id="radius-container">
+            <label for="radius-input">Radius (m):</label>
+            <input type="number" id="radius-input" value="500" min="100" max="5000">
+        </div>
+        <h2>Historic Points of Interest</h2>
+        <div id="poi-list"></div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
