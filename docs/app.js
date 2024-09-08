@@ -167,7 +167,7 @@ function displayPOIs(pois, center, radius) {
                 </div>
                 <div class="poi-details">
                     <h3>${poiName}</h3>
-                    <pre>${JSON.stringify(poi.tags, null, 2)}</pre>
+                    <pre>${formatMetadata(poi.tags)}</pre>
                 </div>
             `;
             poiElement.addEventListener('click', () => togglePoiDetails(poi.id || index));
@@ -178,6 +178,20 @@ function displayPOIs(pois, center, radius) {
     if (poiList.children.length === 0) {
         poiList.innerHTML = '<p>No historic points of interest found within the specified radius.</p>';
     }
+}
+
+function formatMetadata(tags) {
+    let formattedMetadata = '';
+    for (const [key, value] of Object.entries(tags)) {
+        let formattedValue = value;
+        if (key === 'website' || key === 'url' || value.startsWith('http')) {
+            formattedValue = `<a href="${value}" target="_blank">${value}</a>`;
+        } else if (key === 'wikidata') {
+            formattedValue = `<a href="https://www.wikidata.org/wiki/${value}" target="_blank">${value}</a>`;
+        }
+        formattedMetadata += `${key}: ${formattedValue}\n`;
+    }
+    return formattedMetadata;
 }
 
 function togglePoiDetails(poiId) {
