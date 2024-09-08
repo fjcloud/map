@@ -17,7 +17,12 @@ function initMap() {
         view: new ol.View({
             center: ol.proj.fromLonLat([0, 0]),
             zoom: 2
-        })
+        }),
+        interactions: ol.interaction.defaults({mouseWheelZoom: false}).extend([
+            new ol.interaction.MouseWheelZoom({
+                constrainResolution: true
+            })
+        ])
     });
 
     vectorLayer = new ol.layer.Vector({
@@ -47,6 +52,11 @@ function initMap() {
             findNearbyPOIs(coords);
         }
     });
+
+    // Prevent map drag when scrolling the sidebar on touch devices
+    sidebar.addEventListener('touchmove', function(e) {
+        e.stopPropagation();
+    }, { passive: false });
 }
 
 function searchPlace() {
@@ -185,4 +195,9 @@ initMap();
 searchButton.addEventListener('click', searchPlace);
 searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') searchPlace();
+});
+
+// Adjust map size when orientation changes
+window.addEventListener('resize', function() {
+    map.updateSize();
 });
