@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Historic Places Map</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div id="map"></div>
+
+        <div id="search-panel">
+            <h2>Search & Explore</h2>
+            <div class="control-group">
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="Enter location name..."
+                />
+                <button id="search-button">Search</button>
+            </div>
+            <div class="control-group">
+                <label for="radius-input">Radius (m):</label>
+                <input
+                    type="number"
+                    id="radius-input"
+                    value="1000"
+                    min="1"
+                    max="5000"
+                />
+            </div>
+            <!-- Status display will be inserted here by JS -->
+        </div>
+
+        <div id="poi-panel">
+            <button id="close-poi-panel" title="Close POI Panel">&times;</button>
+            <h2>Nearby Historic POIs</h2>
+            <div id="poi-list"></div>
+        </div>
+
+        <script src="app.js" type="module"></script>
+    </body>
+</html>

@@ -1,0 +1,209 @@
+/* Reset default margin/padding */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Prevent body scrollbars */
+    font-family: sans-serif;
+}
+
+/* Ensure map takes full screen */
+#map {
+    height: 100%;
+    width: 100%;
+    position: absolute; /* Needed for z-index context */
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+/* --- Overlay Panels --- */
+#search-panel,
+#poi-panel {
+    position: absolute;
+    z-index: 10; /* Ensure panels are above the map */
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    max-height: 90vh; /* Prevent panels from becoming too tall */
+    overflow-y: auto;
+}
+
+/* Search Panel Specifics (Top-Left) */
+#search-panel {
+    top: 10px;
+    left: 10px;
+    width: 320px;
+}
+
+/* POI Panel Specifics (Left side, initially hidden) */
+#poi-panel {
+    top: 10px; /* Align with search panel or adjust as needed */
+    left: 10px;
+    width: 350px;
+    bottom: 10px; /* Use bottom instead of fixed height */
+    transform: translateX(-110%); /* Start off-screen */
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+#poi-panel.visible {
+    transform: translateX(0);
+}
+
+#poi-panel h2 {
+    margin-top: 0;
+}
+
+#close-poi-panel {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    cursor: pointer;
+    padding: 0 5px;
+    line-height: 1;
+}
+
+/* --- Controls within Panels --- */
+.control-group {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.control-group label {
+    margin-right: 5px;
+    min-width: 70px; /* Align inputs */
+}
+
+.control-group input[type="text"],
+.control-group input[type="number"] {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.control-group button {
+    padding: 8px 12px;
+    margin-left: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+.control-group button:hover {
+    background-color: #0056b3;
+}
+
+/* --- POI List (within panel) --- */
+#poi-list {
+    flex-grow: 1; /* Allow list to fill remaining space */
+    overflow-y: auto; /* Scroll within the panel */
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+/* --- POI Card --- */
+/* Keep existing poi-card styles for brief/details/flip */
+.poi-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    position: relative; /* For flip */
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.poi-card:hover {
+    border-color: #bbb;
+}
+
+.poi-card h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.poi-card p {
+    margin: 3px 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.poi-brief,
+.poi-details {
+    padding: 10px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; /* Safari */
+    width: 100%; /* Ensure width is consistent */
+    box-sizing: border-box; /* Include padding in width */
+    position: absolute; /* Needed for stacking in 3D space */
+    top: 0;
+    left: 0;
+}
+
+/* Brief needs to be explicitly positioned if details is absolute */
+.poi-brief {
+   position: relative; /* Or remove absolute from both, check layout */
+}
+
+.poi-details {
+    transform: rotateY(180deg);
+    background-color: #f0f0f0; /* Different background for flipped state */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow-y: auto; /* Allow scrolling long details */
+    max-height: 150px; /* Limit height of details */
+}
+
+.poi-details pre {
+    white-space: pre-wrap; /* Wrap long lines in details */
+    word-wrap: break-word;
+    font-size: 0.85em;
+    margin: 0;
+}
+
+.poi-card.flipped {
+    transform: rotateY(180deg);
+}
+/* --- Status Display --- */
+/* Styles remain the same, but it will be positioned within #search-panel */
+#status-display {
+    padding: 10px;
+    margin-top: 10px;
+    /* margin-bottom: 10px; Removed as it's last element */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    display: none; /* Hidden by default, shown by JS */
+}
+
+#status-display.status-info {
+    color: #333;
+    background-color: #f0f0f0;
+    border-color: #ccc;
+}
+
+#status-display.status-success {
+    color: #155724; /* Darker green for better contrast */
+    background-color: #d4edda; /* Bootstrap success green */
+    border-color: #c3e6cb;
+}
+
+#status-display.status-error {
+    color: #721c24; /* Darker red for better contrast */
+    background-color: #f8d7da; /* Bootstrap danger red */
+    border-color: #f5c6cb;
+}
